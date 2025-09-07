@@ -39,7 +39,7 @@ function App() {
       {
         id: Tasks.length + 1,
         name: newTask,
-        completed: "To do",
+        state: "To do",
       }
     ])
     setNewTask('')
