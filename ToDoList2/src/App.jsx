@@ -44,6 +44,18 @@ function App() {
     ])
     setNewTask('')
 
+
+  }
+  //Funciones de Drag and Drop
+  const handleDragStart = (e, id) => {
+    e.dataTransfer.setData('id', id);
+  }
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  }
+  const handleDrop = (e, newState) => {
+    const id = e.dataTransfer.getData('id');
+    setTask(Tasks.map(Tasks => Tasks.id === Number(id) ? {...Tasks, state: newState} : Tasks))
   }
 
   return (
@@ -69,9 +81,27 @@ function App() {
           alignItems: 'flex-start',
         }}
         >
-         <StatusTasks Tasks={Tasks} Status= "To do" />
-         <StatusTasks Tasks={Tasks} Status= "In Dev" />
-         <StatusTasks Tasks={Tasks} Status= "Done" />
+         <StatusTasks 
+         Tasks={Tasks} 
+         Status= "To do" 
+         handleDragOver={handleDragOver}
+         handleDragStart={handleDragStart}
+         handleDrop={handleDrop} 
+         />
+         <StatusTasks 
+         Tasks={Tasks} 
+         Status= "In Dev" 
+         handleDragOver={handleDragOver}
+         handleDragStart={handleDragStart}
+         handleDrop={handleDrop}
+         />
+         <StatusTasks 
+         Tasks={Tasks} 
+         Status= "Done" 
+         handleDragOver={handleDragOver}
+         handleDragStart={handleDragStart}
+         handleDrop={handleDrop}
+         />
               
         </div>
         </div>
