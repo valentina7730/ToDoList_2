@@ -1,33 +1,74 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [Tasks, setTask] = useState([
+
+    {
+      id: 1, 
+      name: 'learn React', 
+      completed: false,
+     },
+    { id: 2, 
+      name: 'learn JavaScript', 
+      completed: false,
+     },
+    {
+      id: 3, 
+      name: 'learn HTML', 
+      completed: false,
+     },
+    
+  ])
+
+  const [newTask, setNewTask] = useState('')
+
+  const AddTask = () => {
+
+    if(newTask.trim() === '') {
+      alert('Task cannot be empty');
+      return;
+    }
+    setTask([
+      ...Tasks,
+      {
+        id: Tasks.length + 1,
+        name: newTask,
+        completed: false,
+      }
+    ])
+    setNewTask('')
+
+  }
 
   return (
     <>
       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+        <h2>New Task:</h2>
+        <input 
+        type="text" 
+        onChange={(e) => setNewTask(e.target.value)} 
+        value={newTask}
+        placeholder='Add new task'
+        />
+        <button onClick={() => {AddTask()}}
+          >Add Task
         </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <div>
+        <h2>Task List:</h2>
+        <div>
+          {Tasks.map((Tasks) => (
+            <div key={Tasks.id}>
+              <p>{Tasks.name}</p>
+              
+              
+        </div>
+        ))}
+        </div>
+      </div>
+        
+      
     </>
   )
 }
