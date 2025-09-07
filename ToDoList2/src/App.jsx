@@ -4,32 +4,15 @@ import StatusTasks from './Components/StatusTasks'
 
 function App() {
   const [Tasks, setTask] = useState([
-
-    {
-      id: 1, 
-      name: 'learn React', 
-      state: "To do",
-     },
-    { id: 2, 
-      name: 'learn JavaScript', 
-      state: "In Dev",
-     },
-    { id: 3, 
-      name: 'learn CSS', 
-      state: "In Dev",
-     },
-    { id: 4, 
-      name: 'learn HTML', 
-      state: "Done",
-    }
-    
-    
+    { id: 1, name: 'learn React', state: "To do" },
+    { id: 2, name: 'learn JavaScript', state: "In Dev" },
+    { id: 3, name: 'learn CSS', state: "In Dev" },
+    { id: 4, name: 'learn HTML', state: "Done" }
   ])
 
   const [newTask, setNewTask] = useState('')
 
   const AddTask = () => {
-
     if(newTask.trim() === '') {
       alert('Task cannot be empty');
       return;
@@ -43,10 +26,23 @@ function App() {
       }
     ])
     setNewTask('')
-
-
   }
-  //Funciones de Drag and Drop
+
+  // Eliminar tarea
+  const handleDelete = (id) => {
+    setTask(Tasks.filter(task => task.id !== id));
+  }
+
+  // Cambiar estado con checkbox
+  const handleCheck = (id, checked) => {
+    setTask(Tasks.map(task =>
+      task.id === id
+        ? { ...task, state: checked ? "Done" : "To do" }
+        : task
+    ));
+  }
+
+  // Drag and Drop
   const handleDragStart = (e, id) => {
     e.dataTransfer.setData('id', id);
   }
@@ -55,7 +51,7 @@ function App() {
   }
   const handleDrop = (e, newState) => {
     const id = e.dataTransfer.getData('id');
-    setTask(Tasks.map(Tasks => Tasks.id === Number(id) ? {...Tasks, state: newState} : Tasks))
+    setTask(Tasks.map(task => task.id === Number(id) ? { ...task, state: newState } : task))
   }
 
   return (
@@ -63,50 +59,51 @@ function App() {
       <div>
         <h2>New Task:</h2>
         <input 
-        type="text" 
-        onChange={(e) => setNewTask(e.target.value)} 
-        value={newTask}
-        placeholder='Add new task'
+          type="text" 
+          onChange={(e) => setNewTask(e.target.value)} 
+          value={newTask}
+          placeholder='Add new task'
         />
-        <button onClick={() => {AddTask()}}
-          >Add Task
-        </button>
+        <button onClick={AddTask}>Add Task</button>
       </div>
       <div>
         <h2>Task List:</h2>
         <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-around',
-          alignItems: 'flex-start',
-        }}
+          style={{
+            display: 'flex',
+            justifyContent: 'space-around',
+            alignItems: 'flex-start',
+          }}
         >
-         <StatusTasks 
-         Tasks={Tasks} 
-         Status= "To do" 
-         handleDragOver={handleDragOver}
-         handleDragStart={handleDragStart}
-         handleDrop={handleDrop} 
-         />
-         <StatusTasks 
-         Tasks={Tasks} 
-         Status= "In Dev" 
-         handleDragOver={handleDragOver}
-         handleDragStart={handleDragStart}
-         handleDrop={handleDrop}
-         />
-         <StatusTasks 
-         Tasks={Tasks} 
-         Status= "Done" 
-         handleDragOver={handleDragOver}
-         handleDragStart={handleDragStart}
-         handleDrop={handleDrop}
-         />
-              
+          <StatusTasks 
+            Tasks={Tasks} 
+            Status="To do" 
+            handleDragOver={handleDragOver}
+            handleDragStart={handleDragStart}
+            handleDrop={handleDrop}
+            handleDelete={handleDelete}
+            handleCheck={handleCheck}
+          />
+          <StatusTasks 
+            Tasks={Tasks} 
+            Status="In Dev" 
+            handleDragOver={handleDragOver}
+            handleDragStart={handleDragStart}
+            handleDrop={handleDrop}
+            handleDelete={handleDelete}
+            handleCheck={handleCheck}
+          />
+          <StatusTasks 
+            Tasks={Tasks} 
+            Status="Done" 
+            handleDragOver={handleDragOver}
+            handleDragStart={handleDragStart}
+            handleDrop={handleDrop}
+            handleDelete={handleDelete}
+            handleCheck={handleCheck}
+          />
         </div>
-        </div>
-     
-      
+      </div>
     </>
   )
 }
