@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import './App.css'
+import StatusTasks from './Components/StatusTasks'
 
 function App() {
   const [Tasks, setTask] = useState([
@@ -7,17 +8,21 @@ function App() {
     {
       id: 1, 
       name: 'learn React', 
-      completed: false,
+      state: "To do",
      },
     { id: 2, 
       name: 'learn JavaScript', 
-      completed: false,
+      state: "In Dev",
      },
-    {
-      id: 3, 
+    { id: 3, 
+      name: 'learn CSS', 
+      state: "In Dev",
+     },
+    { id: 4, 
       name: 'learn HTML', 
-      completed: false,
-     },
+      state: "Done",
+    }
+    
     
   ])
 
@@ -34,7 +39,7 @@ function App() {
       {
         id: Tasks.length + 1,
         name: newTask,
-        completed: false,
+        completed: "To do",
       }
     ])
     setNewTask('')
@@ -57,17 +62,20 @@ function App() {
       </div>
       <div>
         <h2>Task List:</h2>
-        <div>
-          {Tasks.map((Tasks) => (
-            <div key={Tasks.id}>
-              <p>{Tasks.name}</p>
-              
+        <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-around',
+          alignItems: 'flex-start',
+        }}
+        >
+         <StatusTasks Tasks={Tasks} Status= "To do" />
+         <StatusTasks Tasks={Tasks} Status= "In Dev" />
+         <StatusTasks Tasks={Tasks} Status= "Done" />
               
         </div>
-        ))}
         </div>
-      </div>
-        
+     
       
     </>
   )
